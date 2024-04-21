@@ -12,6 +12,4 @@ vim.api.nvim_set_keymap("n", "<C-k>", "<cmd>lua vim.diagnostic.open_float()<CR>"
 -- open terminal on to the right
 -- vim.api.nvim_set_keymap("n", "<C-/>", "<cmd>vsplit | terminal<CR>", { noremap = true, silent = true })
 -- Dismiss Noice Message
-vim.keymap.set("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", {desc = "Dismiss Noice Message"})
-
-
+vim.keymap.set("n", "<leader><CR>", "<cmd>NoiceDismiss<CR>", {desc = "Dismiss Noice Message"})

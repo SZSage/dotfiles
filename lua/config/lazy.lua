@@ -38,12 +38,10 @@ require("lazy").setup({
 	{ import = "plugins.transparent" },
 	{ import = "plugins.wilder" },
 	{ import = "plugins.markdown-preview" },
-	{ import = "plugins.jqx"},
 	{ import = "plugins.css_color" },
-	{ import = "plugins.lazysql" },
 	{ import = "plugins.harpoon2" },
-	{ import = "plugins.database" },
-	{ import = "plugins.nui"},
+	{ import = "plugins.nui"}
+	--{ import = "plugins.jupyter" }
     --{ "craftzdog/solarized-osaka.nvim" },
     --{ import = "plugins.treesitter" },
     --{ import = "plugins.edgy" },
@@ -60,7 +58,7 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
   install = { colorscheme = {"nightfox"} },
-  checker = { enabled = true }, -- automatically check for plugin updates
+  checker = { enabled = true, notify = false }, -- automatically check for plugin updates
   performance = {
     rtp = {
       -- disable some rtp plugins
