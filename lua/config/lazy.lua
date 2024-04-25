@@ -40,9 +40,9 @@ require("lazy").setup({
 	{ import = "plugins.markdown-preview" },
 	{ import = "plugins.css_color" },
 	{ import = "plugins.harpoon2" },
-	{ import = "plugins.nui"}
-	--{ import = "plugins.jupyter" }
-    --{ "craftzdog/solarized-osaka.nvim" },
+	{ import = "plugins.nui"},
+	{ import = "plugins.jupyter"},
+	{ import = "plugins.autodarkmode"}
     --{ import = "plugins.treesitter" },
     --{ import = "plugins.edgy" },
     --{ import = "plugins.python" },
@@ -57,7 +57,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = {"nightfox"} },
+  install = { colorscheme = {"nightfox", "dawnfox"} },
   checker = { enabled = true, notify = false }, -- automatically check for plugin updates
   performance = {
     rtp = {
