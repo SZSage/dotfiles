@@ -10,6 +10,9 @@ vim.cmd [[
 ]]
 -- setup must be called before loading
 vim.cmd("colorscheme nightfox")
+-- fixes colorscheme not matching
+vim.opt.termguicolors = true
+
 require('lualine').setup({
 	{
 		options = {
@@ -34,7 +37,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
   group = autocomplete_group,
 })
-
 
 
 -- Disable autoformat for lua files
