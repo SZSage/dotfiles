@@ -10,13 +10,34 @@ require("notify").setup({
   background_colour = "#000000",
 })
 
+
+-- setting for automatically change colorscheme based on light/dark mode from system
+--[[
+require('auto-dark-mode').setup({
+  update_interval = 1000,
+  set_dark_mode = function()
+    print("Setting dark mode")
+    vim.api.nvim_set_option('background', 'dark')
+    vim.cmd('colorscheme nightfox')
+    vim.fn.system('echo -e "\\eP\\e]11;#1D2021\\e\\\\"')
+  end,
+  set_light_mode = function()
+    print("Setting light mode")
+    vim.api.nvim_set_option('background', 'light')
+    vim.cmd('colorscheme dawnfox')
+    vim.fn.system('echo -e "\\eP\\e]11;#FBF1C7\\e\\\\"')
+  end
+})
+]]
+
+
+
 -- setup must be called before loading
 require('lualine').setup( {
   options = {
     theme = 'nightfox'
   }
 })
-vim.cmd("colorscheme nightfox")
 
 -- [[ Configure Treesitter ]]
 -- see `:help nvim-treesitter`

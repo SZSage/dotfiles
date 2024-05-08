@@ -14,11 +14,6 @@ require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    --{ import = "lazyvim.plugins.extras.lang.clangd" },
-    --{ import = "lazyvim.plugins.extras.ui.edgy" },
-    --{ import = "lazyvim.plugins.extras.ui.mini-animate" },
-    --{ import = "lazyvim.plugins.extras.lang.python" },
-    --{ import = "lazyvim.plugins.extras.dap.core" },
     { import = "lazyvim.plugins.extras.vscode" },
 
     -- import any extras modules here
@@ -42,7 +37,9 @@ require("lazy").setup({
 	{ import = "plugins.harpoon2" },
 	{ import = "plugins.nui"},
 	{ import = "plugins.jupyter"},
-	{ import = "plugins.autodarkmode"}
+	{ import = "plugins.autodarkmode"},
+	{ import = "plugins.cmp"},
+	{ import = "plugins.vim-jukit"}
     --{ import = "plugins.treesitter" },
     --{ import = "plugins.edgy" },
     --{ import = "plugins.python" },

@@ -19,3 +19,6 @@ vim.g.autoformat = false
 
 vim.opt.pumblend = 0 -- adds transparecy to hover window padding
 
+
+vim.opt.guicursor = "n:block,i:hor50"
+
