@@ -14,7 +14,6 @@ require("notify").setup({
 local lspconfig = require('lspconfig')
 local util = require('lspconfig/util')
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
 -- Utility function to find the root directory
 local function get_root_dir(fname)
   return vim.fn.getcwd()
