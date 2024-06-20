@@ -6,6 +6,9 @@ return {
     opts = {
       options = {
         transparent = true,
+		on_colors = function(colors)
+			colors.bg_statusline = "NONE" -- Set to transparent
+		end,
       },
     },
     groups = {
