@@ -15,6 +15,21 @@ require('lualine').setup({
   }
 })
 
+
+-- tab width set to 2 for lua files
+vim.cmd([[
+augroup LuaSettings
+	autocmd!
+	autocmd FileType lua setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+	augroup end
+]])
+
+-- Skips swapfile prompt
+vim.api.nvim_create_autocmd("SwapExists", {
+	pattern = "*",
+	command = "let v:swapchoice = 'e'"
+})
+
 -- Setup for nvim-cmp and autocompletion
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
@@ -126,8 +141,6 @@ vim.api.nvim_create_autocmd("CursorHold", {
 -- Custom highlight
 vim.cmd("highlight CustomBorder guibg=NONE")
 
--- Ensure pretty_hover is correctly configured
-require('pretty_hover').setup{}
 
 -- Bind pretty_hover to <Leader>K
 vim.api.nvim_set_keymap('n', '<Leader>K', '<cmd>lua require("pretty_hover").hover()<CR>', { noremap = true, silent = true })
