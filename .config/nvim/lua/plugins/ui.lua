@@ -35,19 +35,16 @@ return {
       })
     end,
   },
-  -- pretty hover plugin configuration
   {
     "Fildo7525/pretty_hover",
     event = "LspAttach",
     opts = {},
     config = function()
       -- set keybindings for pretty hover
-      vim.api.nvim_set_keymap(
-        "n",
-        "<Leader>K",
-        '<cmd>lua require("pretty_hover").hover()<CR>',
+      vim.api.nvim_set_keymap("n", "<Leader>K", '<cmd>lua require("pretty_hover").hover()<CR>',
         { noremap = true, silent = true }
       )
+  -- pretty hover plugin configuration
       -- register keybindings for "which key" plugin
       local wk = require("which-key")
       wk.register({

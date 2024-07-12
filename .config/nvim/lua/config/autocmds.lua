@@ -15,12 +15,16 @@ require('lualine').setup({
   }
 })
 
-
 -- tab width set to 2 for lua files
 vim.cmd([[
-augroup LuaSettings
+augroup FileTypeSettings
 	autocmd!
+  " Lua files
 	autocmd FileType lua setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+  " HTML files
+	autocmd FileType html setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+  " TSX files
+	autocmd FileType tsx setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 	augroup end
 ]])
 

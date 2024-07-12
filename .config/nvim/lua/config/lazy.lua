@@ -28,7 +28,6 @@ require("lazy").setup({
 	{ import = "plugins.dap"},
 	{ import = "plugins.comment" },
 	{ import = "plugins.noice" },
-	{ import = "plugins.neogit"},
 	{ import = "plugins.ui"},
 	{ import = "plugins.transparent" },
 	{ import = "plugins.wilder" },
@@ -36,10 +35,7 @@ require("lazy").setup({
 	{ import = "plugins.css_color" },
 	{ import = "plugins.harpoon2" },
 	{ import = "plugins.nui"},
-	{ import = "plugins.jupyter"},
-	{ import = "plugins.autodarkmode"},
 	{ import = "plugins.cmp"},
-	{ import = "plugins.vim-jukit"}
     --{ import = "plugins.treesitter" },
     --{ import = "plugins.edgy" },
     --{ import = "plugins.python" },
