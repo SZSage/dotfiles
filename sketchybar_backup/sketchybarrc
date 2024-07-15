@@ -1,0 +1,3 @@
+#!/usr/bin/sh
+
+#lua ~/dotfiles/.config/sketchybar/init.lua
