@@ -1,0 +1,10 @@
+
+# nvim
+/nvim/LICENSE
+/nvim/lazyvim.json
+/nvim/stylua.toml
+/nvim/README.MD
+/nvim/lazy-lock.json
+/nvim/logfile.log
+/nvim/pack/
+
