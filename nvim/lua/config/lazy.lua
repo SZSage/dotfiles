@@ -28,7 +28,6 @@ require("lazy").setup({
     { import = "plugins.dap" },
     { import = "plugins.comment" },
     { import = "plugins.noice" },
-    { import = "plugins.neogit" },
     { import = "plugins.ui" },
     { import = "plugins.transparent" },
     { import = "plugins.wilder" },
@@ -37,9 +36,6 @@ require("lazy").setup({
     { import = "plugins.nui" },
     { import = "plugins.cmp" },
     { import = "plugins.obsidian" },
-    { import = "plugins.java_lsp" },
-    --{ import = "plugins.markview" },
-    --{ import = "plugins.markdown" },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.

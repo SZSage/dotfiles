@@ -13,3 +13,9 @@ vim.api.nvim_set_keymap("n", "<M-k>", ":m .-2<CR>==", { noremap = true, silent =
 -- vim.api.nvim_set_keymap("n", "<C-/>", "<cmd>vsplit | terminal<CR>", { noremap = true, silent = true })
 -- Dismiss Noice Message
 vim.keymap.set("n", "<leader><CR>", "<cmd>NoiceDismiss<CR>", {desc = "Dismiss Noice Message"})
+
+vim.keymap.set("n", "<C-t>", function()
+  require("minty.huefy").open()
+ -- require("minty.shades").open()
+end, {}
+)

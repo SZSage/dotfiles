@@ -23,6 +23,14 @@ augroup GeneralFileSettings
 	augroup end
 ]])
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    if vim.bo.buftype == "help" then
+      vim.cmd("wincmd L")
+    end
+  end,
+})
 
 -- Skips swapfile prompt
 vim.api.nvim_create_autocmd("SwapExists", {

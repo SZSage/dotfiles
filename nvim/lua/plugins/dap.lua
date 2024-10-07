@@ -13,7 +13,7 @@ return {
       -- Configure the Python debugger adapter
       dap.adapters.python = {
         type = 'executable';
-        command = "/opt/homebrew/bin/python3"; -- Replace with the path to the Python executable
+        command = "/usr/bin/python3"; -- path to the Python executable
         args = { '-m', 'debugpy.adapter' };
       }
 
@@ -29,7 +29,7 @@ return {
           program = "${file}",
           pythonPath = function()
             -- Return the path to the Python executable
-            return "/opt/homebrew/bin/python3" -- Replace with the correct Python path
+            return "/usr/bin/python3" -- Replace with the correct Python path
           end,
         },
       }

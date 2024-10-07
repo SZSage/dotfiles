@@ -16,6 +16,7 @@ return {
           file_ignore_patterns = { "%.git/" }, -- ignore .git directories
           pickers = {
             find_files = { theme = "dropdown" }, -- set theme for find file pickers
+            find_command = { "rg", "--files", "--sortr=modified" },
           },
         },
       })

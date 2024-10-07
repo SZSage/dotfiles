@@ -53,7 +53,7 @@ return {
       note_id_func = function(title)
         if title ~= nil and title ~= "" then
           -- Transform the title into a valid file name and return it
-          return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", "")
+          return title:gsub("[^A-Za-z0-9 ]", "")
         else
           -- Fallback: If no title is provided, generate a random ID
           local suffix = ""
