@@ -2,17 +2,17 @@ return {
   {
     "folke/noice.nvim",
     event = "VeryLazy",
-    opts = {
-      -- add any options here
-      presets = {
+    opts = function(_, opts)
+      -- Add existing options
+      opts.presets = {
         lsp_doc_border = true,
-      },
-      notify = {
+      }
+      opts.notify = {
         render = "compact",
         stages = "slide",
         top_down = false,
-      },
-      lsp = {
+      }
+      opts.lsp = {
         progress = {
           enabled = false,
           format = "lsp_progress",
@@ -20,8 +20,20 @@ return {
           throttle = 1000 / 30, -- frequency to update lsp progress message
           view = "mini",
         },
-      },
-    },
+        hover = {
+          silent = true,
+        }
+      }
+
+      -- Insert the new route filter
+      table.insert(opts.routes, {
+        filter = {
+          event = "notify",
+          find = "No information available",
+        },
+        opts = { skip = true },
+      })
+    end,
     dependencies = {
       -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
       "MunifTanjim/nui.nvim",
