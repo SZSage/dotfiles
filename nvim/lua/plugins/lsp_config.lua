@@ -1,20 +1,25 @@
 -- Define capabilities once to reuse across LSP configurations
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Utility function to find the root directory for most language servers
 local function get_root_dir(fname)
   return require("lspconfig").util.root_pattern(
-    "build.xml", -- Ant
-    "pom.xml", -- Maven
-    "settings.gradle", -- Gradle
-    "settings.gradle.kts", -- Gradle Kotlin
-    "build.gradle", -- Gradle
-    "build.gradle.kts", -- Gradle Kotlin
+    --"build.xml", -- Ant
+   -- "pom.xml", -- Maven
+    --"settings.gradle", -- Gradle
+    --"settings.gradle.kts", -- Gradle Kotlin
+    --"build.gradle", -- Gradle
+    --"build.gradle.kts", -- Gradle Kotlin
     ".git" -- Git root
-  )(fname) or vim.fn.getcwd() -- Fallback to current working directory
+  )(fname) or require("lspconfig").util.path.dirname(fname)
 end
 
+-- Setup all plugins via Lazy.nvim
 return {
+  
+  -- Add nvim-java plugin before configuring jdtls
+  --[[
   {
     "nvim-java/nvim-java",
     config = function()
@@ -32,14 +37,43 @@ return {
       })
     end,
   },
+  --]]
+  
+  -- Mason and LSP configuration
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          --"jdtls",
+          "jedi_language_server",
+          "clangd",
+          "pyright",
+          "ruff_lsp",
+          "lua_ls",
+          "omnisharp",
+        },
+        automatic_installation = true,
+      })
+    end,
+  },
   {
     "neovim/nvim-lspconfig",
     config = function()
+      -- Configure the LSP servers via lspconfig
       local lspconfig = require("lspconfig")
-
-      -- Java (jdtls) Configuration
+    --[[
       lspconfig.jdtls.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/packages/jdtls/jdtls" },
+        root_dir = get_root_dir,
+        capabilities = capabilities,
         settings = {
           java = {
             eclipse = { downloadSources = true },
@@ -49,40 +83,32 @@ return {
             format = { enabled = true }, -- Enable auto-formatting
           },
         },
-        root_dir = get_root_dir,
-        capabilities = capabilities,
       })
+      --]]
 
-      -- Configure jedi (Python LSP)
       lspconfig.jedi_language_server.setup({
-        cmd = { "/Users/sage/.local/share/nvim/mason/bin/jedi-language-server" },
+        cmd = { vim.fn.stdpath("data") .. "/mason/bin/jedi-language-server" },
         filetypes = { "python" },
         root_dir = get_root_dir,
         capabilities = capabilities,
       })
 
-      -- Configure clangd (C, C++)
       lspconfig.clangd.setup({
-        cmd = { "/Users/sage/.local/share/nvim/mason/bin/clangd" },
+        cmd = { vim.fn.stdpath("data") .. "/mason/bin/clangd" },
         filetypes = { "c" },
         root_dir = get_root_dir,
       })
 
-      -- Configure pyright (Python)
       lspconfig.pyright.setup({
         capabilities = capabilities,
-        cmd = { "/Users/sage/.local/share/nvim/mason/bin/pyright-langserver", "--stdio" },
+        cmd = { vim.fn.stdpath("data") .. "/mason/bin/pyright-langserver", "--stdio" },
         filetypes = { "python" },
         root_dir = get_root_dir,
         settings = {
-          pyright = {
-            disableOrganizeImports = true, -- using ruff for this
-            disableLanguageServices = true,
-          },
           python = {
             analysis = {
-              ignore = { "*" }, -- Using Ruff
-              typeCheckingMode = "off",
+              ignore = { "*" }, -- Ruff for linting
+              typeCheckingMode = "basic", -- Keep basic type checking enabled for Pyright
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
               diagnosticMode = "workspace",
@@ -92,23 +118,20 @@ return {
         },
       })
 
-      -- Configure ruff_lsp (Python linter)
       lspconfig.ruff_lsp.setup({
-        cmd = { "/Users/sage/.local/share/nvim/mason/bin/ruff-lsp" },
+        cmd = { vim.fn.stdpath("data") .. "/mason/bin/ruff-lsp" },
         filetypes = { "python" },
         root_dir = get_root_dir,
         capabilities = capabilities,
       })
 
-      -- Configure lua_ls (Lua)
       lspconfig.lua_ls.setup({
-        cmd = { "/Users/sage/.local/share/nvim/mason/bin/lua-language-server" },
+        cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
         filetypes = { "lua" },
         root_dir = get_root_dir,
         capabilities = capabilities,
       })
 
-      -- Configure omnisharp (C#, .NET)
       lspconfig.omnisharp.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/bin/omnisharp-mono" },
         capabilities = capabilities,
