@@ -37,6 +37,8 @@ require("lazy").setup({
     { import = "plugins.cmp" },
     { import = "plugins.obsidian" },
     { import = "plugins.lsp_config" },
+    { import = "plugins.hover" },
+    { import = "plugins.nvim-dap" },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.

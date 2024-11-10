@@ -1,5 +1,6 @@
 -- Define capabilities once to reuse across LSP configurations
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local automatic_installation = require("mason-nvim-dap.automatic_installation")
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Utility function to find the root directory for most language servers
@@ -17,7 +18,6 @@ end
 
 -- Setup all plugins via Lazy.nvim
 return {
-  
   -- Add nvim-java plugin before configuring jdtls
   --[[
   {
@@ -51,25 +51,35 @@ return {
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = {
-          --"jdtls",
-          "jedi_language_server",
-          "clangd",
-          "pyright",
-          "ruff_lsp",
-          "lua_ls",
-          "omnisharp",
-        },
-        automatic_installation = true,
+        ensure_installed = { "jdtls", "jedi_language_server", "clangd", "pyright", "ruff_lsp", "lua_ls", "omnisharp", "yamlls", "dockerls", "docker_compose_language_service" },
       })
     end,
+  },
+  -- Mason DAP
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    config = function()
+      require("mason-nvim-dap").setup({
+        ensure_installed = {"java-debug-adapter", "java-test"},
+      automatic_installation = true
+      })
+    end
+  },
+  -- Utility plugin for configuring the Java server
+  {
+    "mfussenegger/nvim-jdtls",
+    dependencies = {
+      "mfussenegger/nvim-dap"
+    }
   },
   {
     "neovim/nvim-lspconfig",
     config = function()
       -- Configure the LSP servers via lspconfig
       local lspconfig = require("lspconfig")
-    --[[
+
+      --[[
+      -- Java configuration
       lspconfig.jdtls.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/packages/jdtls/jdtls" },
         root_dir = get_root_dir,
@@ -80,12 +90,13 @@ return {
             maven = { downloadSources = true },
             referencesCodeLens = { enabled = true },
             implementationsCodeLens = { enabled = true },
-            format = { enabled = true }, -- Enable auto-formatting
+            format = { enabled = true },
           },
         },
       })
-      --]]
+      -]]
 
+      -- Python Jedi LSP Configuration
       lspconfig.jedi_language_server.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/bin/jedi-language-server" },
         filetypes = { "python" },
@@ -93,6 +104,39 @@ return {
         capabilities = capabilities,
       })
 
+      -- Yaml LSP Config
+      lspconfig.yamlls.setup({
+        --cmd = { vim.fn.stdpath("data") .. "/mason/bin/yaml-language-server"},
+        cmd = { "yaml-language-server", "--stdio"},
+        filetypes =  { "yaml", "yml" },
+        root_dir = get_root_dir,
+        capabilities = capabilities
+      })
+
+
+      lspconfig.dockerls.setup({
+        cmd = { "docker-langserver", "--stdio"},
+        filetypes =  { "dockerfile" },
+        root_dir = get_root_dir,
+        capabilities = capabilities
+      })
+
+      lspconfig.docker_compose_language_service.setup({
+        cmd = { "docker-compose-langserver", "--stdio"},
+        filetypes =  { "yaml", "yml" },
+        root_dir = get_root_dir,
+        capabilities = capabilities
+      })
+
+      -- HTML LSP Config
+      lspconfig.html.setup({
+        cmd = { "vscode-html-language-server", "--stdio" },
+        filetypes = { "html" },
+        root_dir = get_root_dir,
+        capabilities = capabilities,
+      })
+
+      -- C LSP Config
       lspconfig.clangd.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/bin/clangd" },
         filetypes = { "c" },
@@ -108,7 +152,7 @@ return {
           python = {
             analysis = {
               ignore = { "*" }, -- Ruff for linting
-              typeCheckingMode = "basic", -- Keep basic type checking enabled for Pyright
+              typeCheckingMode = "basic",
               autoSearchPaths = true,
               useLibraryCodeForTypes = true,
               diagnosticMode = "workspace",
