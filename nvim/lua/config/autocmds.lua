@@ -38,6 +38,13 @@ vim.api.nvim_create_autocmd("SwapExists", {
 	command = "let v:swapchoice = 'e'"
 })
 
+vim.cmd [[
+  augroup jdtls_lsp
+    autocmd!
+    autocmd FileType java lua require"config.jdtls".setup_jdtls()
+  augroup end
+]]
+
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
@@ -48,6 +55,7 @@ cmp.setup({
       require('luasnip').lsp_expand(args.body)
     end,
   },
+  -- change looks of cmp window
   window = {
     completion = {
       border = "rounded",
@@ -58,6 +66,7 @@ cmp.setup({
       winhighlight = "Normal:Pmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
     },
   },
+  -- keymaps for scrolling cmp docs
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -103,7 +112,7 @@ cmp.setup.cmdline(':', {
 -- Autocmds for specific filetypes
 local autocomplete_group = vim.api.nvim_create_augroup("vimrc_autocompletion", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "sql", "mysql", "plsql", "python" },
+  pattern = { "sql", "mysql", "plsql" },
   callback = function()
     cmp.setup.buffer({
       sources = {
@@ -115,6 +124,21 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
   group = autocomplete_group,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "python" },
+  callback = function()
+    cmp.setup.buffer({
+      sources = {
+        { name = "nvim_lsp" },
+        { name = "buffer" },
+        { name = "luasnip" },
+      },
+    })
+  end,
+  group = autocomplete_group,
+})
+
 
 -- Disable autoformat for C files
 vim.api.nvim_create_autocmd("FileType", {

@@ -14,5 +14,4 @@ vim.opt.termguicolors = true
 vim.g.autoformat = false
 vim.opt.pumblend = 0 -- adds transparecy to hover window padding
 vim.opt.scrolloff = 5 -- minimal number of screen lines to keep above and below the cursor
-
-
+vim.opt.guicursor = ""

@@ -14,6 +14,9 @@ vim.api.nvim_set_keymap("n", "<M-k>", ":m .-2<CR>==", { noremap = true, silent =
 -- Dismiss Noice Message
 vim.keymap.set("n", "<leader><CR>", "<cmd>NoiceDismiss<CR>", {desc = "Dismiss Noice Message"})
 
+-- maps to floating window
+vim.keymap.set("n", "<leader>z", ":keepalt Lf<CR>", { noremap = true, silent = true })
+
 vim.keymap.set("n", "<C-t>", function()
   require("minty.huefy").open()
  -- require("minty.shades").open()
