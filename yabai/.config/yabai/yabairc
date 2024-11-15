@@ -53,7 +53,7 @@ yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
+yabai -m rule --add app="^(Messages|Finder|Notes|Google Chrome|Prism Launcher)$" manage=off
 
 # ff00ff00
 borders active_color=0xffe0d6ff width=2.0 &

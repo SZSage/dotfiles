@@ -12,6 +12,14 @@ return {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
       }
+      -- cmp formatting 
+      opts.formatting = {
+        fields = { "abbr", "kind", "menu" },
+        format = function(entry, vim_item)
+          vim_item.menu = "" -- removes spacing in the menu field
+          return vim_item
+        end,
+      }
       return opts
     end,
   },

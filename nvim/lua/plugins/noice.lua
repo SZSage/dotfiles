@@ -1,46 +1,41 @@
 return {
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = function(_, opts)
-      -- Add existing options
-      opts.presets = {
-        lsp_doc_border = true,
-      }
-      opts.notify = {
-        render = "compact",
-        stages = "slide",
-        top_down = false,
-      }
-      opts.lsp = {
-        progress = {
-          enabled = false,
-          format = "lsp_progress",
-          format_done = "lsp_progress_done",
-          throttle = 1000 / 30, -- frequency to update lsp progress message
-          view = "mini",
+  "folke/noice.nvim",
+  event = "VeryLazy",
+  opts = function(_, opts)
+    -- Presets for easier configuration
+    opts.presets = {
+      bottom_search = false , -- use a classic bottom cmdline for search
+      command_palette = false, -- position the cmdline and popupmenu together
+      long_message_to_split = true, -- long messages sent to a split
+      inc_rename = false, -- enables input dialog for inc-rename.nvim
+      lsp_doc_border = true, -- add border to hover docs and signature help
+    }
+    opts.notify = {
+      render = "compact",
+      stages = "slide",
+      top_down = false,
+    }
+    opts.routes = {
+        {
+          filter = {
+            event = "notify",
+            find = "No information available",
         },
-        hover = {
-          silent = true,
+        opts = {
+          skip = true,
         }
       }
-
-      -- Insert the new route filter
-      table.insert(opts.routes, {
-        filter = {
-          event = "notify",
-          find = "No information available",
-        },
-        opts = { skip = true },
-      })
-    end,
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
-    },
+    }
+    opts.lsp = {
+      override = {
+        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true,
+        ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+      },
+    }
+  end,
+  dependencies = {
+    "MunifTanjim/nui.nvim",
+    "rcarriga/nvim-notify", -- Optional for notifications
   },
 }

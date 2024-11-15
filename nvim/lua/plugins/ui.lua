@@ -73,4 +73,9 @@ return {
     end,
     after = "folke/noice.nvim",
   },
+  -- floating file explorer
+  {
+    "ptzz/lf.vim",
+    dependencies = { "voldikss/vim-floaterm" }
+  }
 }

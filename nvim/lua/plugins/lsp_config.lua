@@ -96,6 +96,7 @@ return {
       })
       -]]
 
+      --[[
       -- Python Jedi LSP Configuration
       lspconfig.jedi_language_server.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/bin/jedi-language-server" },
@@ -103,6 +104,7 @@ return {
         root_dir = get_root_dir,
         capabilities = capabilities,
       })
+      -]]
 
       -- Yaml LSP Config
       lspconfig.yamlls.setup({
@@ -143,6 +145,13 @@ return {
         root_dir = get_root_dir,
       })
 
+      lspconfig.basedpyright.setup({
+        cmd = { vim.fn.stdpath("data") .. "/mason/bin/basedpyright-langserver", "--stdio" },
+        filetypes = { "python" },
+        root_dir = get_root_dir
+      })
+
+      --[[
       lspconfig.pyright.setup({
         capabilities = capabilities,
         cmd = { vim.fn.stdpath("data") .. "/mason/bin/pyright-langserver", "--stdio" },
@@ -158,9 +167,11 @@ return {
               diagnosticMode = "workspace",
               logLevel = "Information",
             },
+            pythonPath = vim.fn.exepath("python")
           },
         },
       })
+      --]]
 
       lspconfig.ruff_lsp.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/bin/ruff-lsp" },
@@ -177,7 +188,7 @@ return {
       })
 
       lspconfig.omnisharp.setup({
-        cmd = { vim.fn.stdpath("data") .. "/mason/bin/omnisharp-mono" },
+        cmd = { vim.fn.stdpath("data") .. "/mason/bin/omnisharp"},
         capabilities = capabilities,
         on_attach = function(client, bufnr)
           vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")

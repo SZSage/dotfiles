@@ -34,7 +34,24 @@ return {
         },
       }
 
-      -- You can add other configurations for DAP below
+      -- Java debugger adapter
+      dap.adapters.java = {
+        type = "executable";
+        command = "/opt/homebrew/Cellar/openjdk/23/libexec/openjdk.jdk/Contents/Home/bin/java";
+        args = { "-m", "java-debug-adapter.adapter" };
+      }
+    
+      -- define how to start debugger for Java files
+      dap.configurations.java = {
+        type = "launch";
+        request = "launch";
+        name = "Launch file";
+        program = "${file}";
+        javaPath = function()
+          return "/opt/homebrew/Cellar/openjdk/23/libexec/openjdk.jdk/Contents/Home/bin/java"
+        end;
+      }
+
     end,
   },
 }
