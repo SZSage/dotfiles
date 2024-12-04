@@ -6,16 +6,16 @@ return {
     opts = {
       options = {
         transparent = true,
-		on_colors = function(colors)
-			colors.bg_statusline = "NONE" -- Set to transparent
-		end,
+        on_colors = function(colors)
+          colors.bg_statusline = "NONE" -- Set to transparent
+        end,
       },
     },
     groups = {
       all = {
-        NormalFloat = { fg = "fg1", bg = "bg1"},
-        NeotreeNormal = { bg = "NONE" }, -- For neotree background
-        NeotreeNormalNC = { bg = "NONE" }, -- For non-current window in neotree
+        --NormalFloat = { fg = "fg1", bg = "bg1"},
+        --NeotreeNormal = { bg = "NONE" }, -- For neotree background
+        --NeotreeNormalNC = { bg = "NONE" }, -- For non-current window in neotree
       },
     },
   },
@@ -64,30 +64,48 @@ return {
       },
     },
   },
-  -- or you can return new options to override all the defaults
   {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
+    "AlexvZyl/nordic.nvim",
+    lazy = false,
     priority = 1000,
-    opts = function()
-      return {
-        --[[add custom lualine config here]]
-        options = {
-          theme = "catppuccin",
+    config = function()
+      require("nordic").setup({
+        bright_border = false,
+        which_key = true,
+        transparent = {
+          bg = true,
+          float = true, -- Enable transparency for floating windows
         },
-      }
+        cursorline = {
+          theme = "dark",
+          -- Blending the cursorline bg with the buffer bg.
+          blend = 0.85,
+        },
+        ts_context = {
+          dark_background = "true",
+        },
+        on_highlight = function(highlights, palette)
+            -- Override Neo-tree highlights
+            highlights.NeoTreeDirectoryIcon = { fg = palette.green.base }
+            highlights.NeoTreeDirectoryName = { fg = palette.green.base }
+            highlights.NeoTreeFileIcon = { fg = palette.green.base }
+        end,
+      })
     end,
   },
   -- Configuration for LazyVim with nightfox as the colorscheme
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin", "nightfox", "dawnfox",
+      colorscheme = "nordic",
+      "catppuccin",
+      "nightfox",
+      "dawnfox",
     },
   },
   -- Disable tokyonight.nvim
   {
     "folke/tokyonight.nvim",
     enabled = false, -- This disables the tokyonight theme
-  }
+  },
 }
