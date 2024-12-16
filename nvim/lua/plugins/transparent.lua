@@ -1,7 +1,7 @@
 
 return {
 	"xiyaowong/transparent.nvim",
-      enabled = false,
+      enabled = true,
 			opts = {
 				groups = { -- table: default groups
 					"Normal",
@@ -34,6 +34,31 @@ return {
 					"NvimTreeEndOfBuffer",
 					"StatusLine",
 					"StatusLineNC",
+          "TelescopeBorder",
+          "GitSignsAdd",
+          "GitSignsChange",
+          "NeoTreeFloatBorder",
+          -- For borders transparency
+          "FloatBorder",
+          "WinSeparator",
+          "WhichKeyFloat",
+          "WhichKeyBorder",
+          "LspInfoBorder",
+          -- Cmdline and LSP documentation borders
+          "NoiceCmdline",
+          "NoiceCmdlineBorder",
+          "NoiceCmdlinePopupBorder",
+          "Pmenu",
+          "Float",
+          "NormalFloat",
+          "CmpPmenuBorder", -- For cmp.nvim borders (autocomplete)
+          "LspInfoBorder", -- General LSP floating windows
+          "LspDiagnosticsBorder", -- Diagnostics floating windows
+          "FloatBorder",         -- General float border
+          -- LSP-specific groups
+          "DiagnosticFloatingBorder", -- Diagnostic float border
+          "HoverBorder",         -- Border for hover actions
+
 				}, -- table: additional groups that should be cleared
 				exclude_groups = {
 					"CursorLine",

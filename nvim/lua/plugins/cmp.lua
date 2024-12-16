@@ -9,8 +9,10 @@ return {
         completeopt = "menu,menuone,noinsert",
       }
       opts.window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        --completion = cmp.config.window.bordered(),
+        --documentation = cmp.config.window.bordered(),
+        completion = cmp.config.window.default_options,
+        documentation = cmp.config.window.default_options,
       }
       -- cmp formatting 
       opts.formatting = {

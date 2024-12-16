@@ -4,7 +4,6 @@ if not vim.loop.fs_stat(lazypath) then
   -- stylua: ignore
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
 end
-
 -- set python3 host program
 vim.api.nvim_set_var("python3_host_prog", "/usr/bin/python3")
 --vim.api.nvim_set_var("python3_host_prog", "/opt/homebrew/bin/python3")
@@ -39,9 +38,13 @@ require("lazy").setup({
     { import = "plugins.lsp_config" },
     { import = "plugins.hover" },
     { import = "plugins.nvim-dap" },
+    { import = "plugins.key_analyzer" },
+    { import = "plugins.whichkey" },
   },
   -- UI config
-  ui = { border = "rounded" },
+  ui = {
+    border = "rounded",
+  },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
     -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.

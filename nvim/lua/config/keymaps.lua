@@ -17,6 +17,15 @@ vim.keymap.set("n", "<leader><CR>", "<cmd>NoiceDismiss<CR>", {desc = "Dismiss No
 -- maps to floating window
 vim.keymap.set("n", "<leader>z", ":keepalt Lf<CR>", { noremap = true, silent = true })
 
+-- Allow clipboard copy-paste in Neovim
+vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+
+local rhs = '<Cmd>lua MiniAnimate.config.scroll.enable = not MiniAnimate.config.scroll.enable<CR>'
+vim.keymap.set('n', '<Leader>ts', rhs, { desc = 'Toggle scroll animation' })
+
 vim.keymap.set("n", "<C-t>", function()
   require("minty.huefy").open()
  -- require("minty.shades").open()

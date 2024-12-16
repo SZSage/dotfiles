@@ -26,6 +26,7 @@ return {
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
+    enabled = false,
     opts = {
       -- custom configuration here
       preset = "modern",
@@ -49,12 +50,21 @@ return {
         signature = { enabled = false },
       },
       presets = {
-        lsp_doc_border = true,
+        lsp_doc_border = false,
       },
       notify = {
         render = "compact", -- compact rendering for notifications
         stages = "slide", -- slide in effect for notifications
         top_down = false,
+      },
+    },
+    {
+      "folke/edgy.nvim",
+      event = "VeryLazy",
+      opts = {
+        animate = {
+          enabled = false,
+        },
       },
     },
     dependencies = {
@@ -73,9 +83,48 @@ return {
     end,
     after = "folke/noice.nvim",
   },
-  -- floating file explorer
+  -- or you can return new options to override all the defaults
   {
-    "ptzz/lf.vim",
-    dependencies = { "voldikss/vim-floaterm" }
-  }
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    priority = 1000,
+    opts = function()
+      return {
+        --[[add custom lualine config here]]
+        options = {
+          theme = "nordic",
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
+        },
+        sections = {
+          lualine_a = { { "mode", separator = { left = "", right = "" } } },
+          lualine_z = {
+            { "location", separator = { left = "", right = "" } },
+          },
+        },
+      }
+    end,
+  },
+  {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({
+        "*", -- Enable for all filetypes
+        lua = {
+          AARRGGBB = true,
+          rgb_0x = true, -- Enable parsing "0xAARRGGBB"
+          RRGGBBAA = true, -- Enable #RRGGBBAA
+          RGB = false, -- Disable short #RGB
+          names = false, -- Disable named colors
+        },
+        css = {
+          RGB = true, -- Enable regular RGB hex codes
+          RRGGBB = true, -- Enable #RRGGBB hex codes
+          names = true, -- Enable named colors like "Blue"
+          RRGGBBAA = true, -- Enable #RRGGBBAA (with alpha channel)
+          css = false, -- Disable CSS functions like rgb()
+        },
+      }, {})
+    end,
+  },
 }
