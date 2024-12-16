@@ -1,11 +1,5 @@
 -- Colorscheme setup
-vim.cmd [[colorscheme catppuccin]]
-vim.cmd [[
-  highlight NormalFloat guibg=NONE
-  highlight FloatBorder guibg=NONE
-  highlight NvimTreeNormal guibg=NONE
-  highlight LazyTerm guibg=NONE
-]]
+
 vim.opt.termguicolors = true
 
 -- tab width set to 2 for specific filetypes
@@ -44,70 +38,6 @@ vim.cmd [[
     autocmd FileType java lua require"config.jdtls".setup_jdtls()
   augroup end
 ]]
-
-
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
-
-local cmp = require('cmp')
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
-  },
-  -- change looks of cmp window
-  window = {
-    completion = {
-      border = "rounded",
-      winhighlight = "Normal:Pmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
-    },
-    documentation = {
-      border = "rounded",
-      winhighlight = "Normal:Pmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None",
-    },
-  },
-  -- keymaps for scrolling cmp docs
-  mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
- }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'nvim_lua' },
-    { name = 'luasnip' },
-  }, {
-    { name = 'buffer' },
-    { name = 'path' },
-  }),
-})
-
--- Setup for nvim-cmp in command line mode
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline({
-    ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end,
-  }),
-  sources = cmp.config.sources({
-    { name = 'path' },
-  }, {
-    { name = 'cmdline' },
-  }),
-})
 
 -- Autocmds for specific filetypes
 local autocomplete_group = vim.api.nvim_create_augroup("vimrc_autocompletion", { clear = true })
@@ -160,7 +90,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
     local opts = {
       focusable = false,
       close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-      border = 'rounded',
+      border = 'none',
       source = 'always',
       prefix = ' ',
       scope = 'cursor',
@@ -169,7 +99,6 @@ vim.api.nvim_create_autocmd("CursorHold", {
     vim.diagnostic.open_float(nil, opts)
   end
 })
-
 -- Custom highlight
-vim.cmd("highlight CustomBorder guibg=NONE")
+--vim.cmd("highlight CustomBorder guibg=NONE")
 
