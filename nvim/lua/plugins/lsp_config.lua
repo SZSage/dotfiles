@@ -1,21 +1,12 @@
--- Define capabilities once to reuse across LSP configurations
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local automatic_installation = require("mason-nvim-dap.automatic_installation")
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Utility function to find the root directory for most language servers
 local function get_root_dir(fname)
   return require("lspconfig").util.root_pattern(
-    --"build.xml", -- Ant
-   -- "pom.xml", -- Maven
-    --"settings.gradle", -- Gradle
-    --"settings.gradle.kts", -- Gradle Kotlin
-    --"build.gradle", -- Gradle
-    --"build.gradle.kts", -- Gradle Kotlin
     ".git" -- Git root
-  )(fname) or require("lspconfig").util.path.dirname(fname)
+  --)(fname) or require("lspconfig").util.path.dirname(fname)
+  )(fname)or vim.fn.getcwd()
 end
-
 -- Setup all plugins via Lazy.nvim
 return {
   -- Add nvim-java plugin before configuring jdtls
@@ -38,7 +29,7 @@ return {
     end,
   },
   --]]
-  
+
   -- Mason and LSP configuration
   {
     "williamboman/mason.nvim",
@@ -46,9 +37,10 @@ return {
       require("mason").setup()
     end,
   },
+  -- Mason lsp config utilizes mason to automatically ensure lsp servers are installed
   {
     "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    --dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = { "jdtls", "jedi_language_server", "clangd", "pyright", "ruff_lsp", "lua_ls", "omnisharp", "yamlls", "dockerls", "docker_compose_language_service" },
@@ -74,7 +66,16 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "hrsh7th/nvim-cmp",      -- Completion framework
+      "hrsh7th/cmp-nvim-lsp", -- LSP completion integration
+    },
     config = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities(
+        vim.lsp.protocol.make_client_capabilities()
+      )
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
       -- Configure the LSP servers via lspconfig
       local lspconfig = require("lspconfig")
 
@@ -173,12 +174,14 @@ return {
       })
       --]]
 
+      --[[
       lspconfig.ruff_lsp.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/bin/ruff-lsp" },
         filetypes = { "python" },
         root_dir = get_root_dir,
         capabilities = capabilities,
       })
+      -]]
 
       lspconfig.lua_ls.setup({
         cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },

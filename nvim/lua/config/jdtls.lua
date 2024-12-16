@@ -37,14 +37,15 @@ local function get_bundles()
 
      return bundles
 end
-
 local function get_workspace()
     -- Get the home directory of your operating system
     local home = os.getenv "HOME"
     -- Declare a directory where you would like to store project information
-    local workspace_path = home .. "/code/workspace/"
+    local workspace_path = home .. "/.jdtls-workspaces/"
+    --local workspace_path = home .. "/code/workspace/"
+
     -- Determine the project name
-    local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+    local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t") or "default"
     -- Create the workspace directory by concatenating the designated workspace path and the project name
     local workspace_dir = workspace_path .. project_name
     return workspace_dir
@@ -87,6 +88,7 @@ local function setup_jdtls()
     -- Get the paths to the jdtls jar, operating specific configuration directory, and lombok jar
     local launcher, os_config, lombok = get_jdtls()
 
+    print("Launcher path: " .. launcher)
     -- Get the path you specified to hold project information
     local workspace_dir = get_workspace()
 
@@ -94,8 +96,9 @@ local function setup_jdtls()
     local bundles = get_bundles()
 
     -- Determine the root directory of the project by looking for these specific markers
-    local root_dir = jdtls.setup.find_root({ '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' });
-    
+    local root_dir = jdtls.setup.find_root({ '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' }) or vim.fn.getcwd();
+
+    print("Detected root directory: " .. root_dir)
     -- Tell our JDTLS language features it is capable of
     local capabilities = {
         workspace = {
@@ -119,24 +122,22 @@ local function setup_jdtls()
 
     -- Set the command that starts the JDTLS language server jar
     local cmd = {
-        'java',
+        os.getenv("JAVA_HOME") .. "/bin/java",
         '-Declipse.application=org.eclipse.jdt.ls.core.id1',
         '-Dosgi.bundles.defaultStartLevel=4',
         '-Declipse.product=org.eclipse.jdt.ls.core.product',
-        '-Dlog.protocol=true',
-        '-Dlog.level=ALL',
+        --'-Dlog.protocol=true',
+        --'-Dlog.level=ALL',
         '-Xmx1g',
         '--add-modules=ALL-SYSTEM',
         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
         '-javaagent:' .. lombok,
-        '-jar',
-        launcher,
-        '-configuration',
-        os_config,
-        '-data',
-        workspace_dir
+        '-jar', launcher,
+        '-configuration', os_config,
+        '-data', workspace_dir,
     }
+
 
      -- Configure settings in the JDTLS server
     local settings = {
@@ -199,6 +200,9 @@ local function setup_jdtls()
                     "org",
                 }
             },
+            project = {
+                referClasspath = false, -- Avoid Maven/Gradle dependency issues for single files
+            },
             sources = {
                 -- How many classes from a specific package should be imported before automatic imports combine them all into a single import
                 organizeImports = {
@@ -239,7 +243,8 @@ local function setup_jdtls()
     -- Create a table called init_options to pass the bundles with debug and testing jar, along with the extended client capablies to the start or attach function of JDTLS
     local init_options = {
         bundles = bundles,
-        extendedClientCapabilities = extendedClientCapabilities
+        extendedClientCapabilities = extendedClientCapabilities,
+        --workspaceFolders = { workspace_dir }, -- Set workspace explicitly for single files
     }
 
     -- Function that will be ran once the language server is attached
@@ -277,7 +282,12 @@ local function setup_jdtls()
         settings = settings,
         capabilities = capabilities,
         init_options = init_options,
-        on_attach = on_attach
+        on_attach = on_attach,
+        handlers = {
+            ["$/progress"] = function(_, result, ctx)
+                -- Suppress $/progress updates
+            end,
+        },
     }
 
     -- Start the JDTLS server
