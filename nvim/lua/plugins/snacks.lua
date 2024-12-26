@@ -1,12 +1,20 @@
 -- stylua: ignore
 return {
+
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
   opts = {
     -- bigfile
     bigfile = { enabled = true },
+    -- whichkey
     which_key = { enabled = true },
+    -- toggle info for whichkey
+    toggle = { enabled = true},
+    -- floating window
+    win = { enabled = true },
+    -- words: auto show LSP references and quickly naviate to them
+    words = { enabled = true },
     -- dashboard
     dashboard = {
       enabled = true,
@@ -19,8 +27,22 @@ return {
           padding = 1,
         },
         { section = "keys", gap = 1, padding = 1 },
-        { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-        { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+        {
+          pane = 2,
+          icon = " ",
+          title = "Recent Files",
+          section = "recent_files",
+          indent = 2,
+          padding = 1,
+        },
+        {
+          pane = 2,
+          icon = " ",
+          title = "Projects",
+          section = "projects",
+          indent = 2,
+          padding = 1,
+        },
         {
           pane = 2,
           icon = " ",
@@ -36,24 +58,35 @@ return {
         { section = "startup" },
       },
     },
+    -- indent
+    indent = {
+      enabled = true,
+    },
+    -- animate
+    scroll = {
+      enabled = true,
+    },
     -- notifier
     notifier = {
       enabled = true,
       timeout = 3000,
     },
-    -- status column
-    git = {
-      patterns = { "gitsigns", "MiniDiffSign" }
-    },
+    -- quickfile
     quickfile = { enabled = true },
-    statuscolumn = { enabled = true },
-    words = { enabled = true },
+    -- status column
+    statuscolumn = {
+      enabled = true,
+      git = {
+        patterns = { "gitsigns", "MiniDiffSign" },
+      },
+    },
     styles = {
       notification = {
-        wo = { wrap = true } -- Wrap notifications
-      }
-    }
+        wo = { wrap = true }, -- Wrap notifications
+      },
+    },
   },
+  -- keymaps
   keys = {
     { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
     { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
@@ -84,7 +117,7 @@ return {
           },
         })
       end,
-    }
+    },
   },
   init = function()
     vim.api.nvim_create_autocmd("User", {
