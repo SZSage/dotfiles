@@ -9,4 +9,8 @@ return {
   { "ptzz/lf.vim", enabled = false },
   { "jbyuki/one-small-step-for-vimkind", enabled = false },
   { "tree-sitter-grammars/tree-sitter-markdown", enabled = false },
+  { "echasnovski/mini.indentscope", enabled = false },
+  { "hrsh7th/nvim-cmp", enabled = true },
+  { "hrsh7th/cmp-nvim-lsp", enabled = true },
+  { "nvim-neo-tree/neo-tree.nvim", enabled = false },
 }

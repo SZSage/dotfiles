@@ -8,7 +8,7 @@ return {
       command_palette = false, -- position the cmdline and popupmenu together
       long_message_to_split = true, -- long messages sent to a split
       inc_rename = false, -- enables input dialog for inc-rename.nvim
-      lsp_doc_border = true, -- add border to hover docs and signature help
+      lsp_doc_border = false, -- add border to hover docs and signature help
     }
     opts.notify = {
       render = "compact",
@@ -30,7 +30,7 @@ return {
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
-        ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        --["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
       },
     }
   end,

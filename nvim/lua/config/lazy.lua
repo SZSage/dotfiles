@@ -33,7 +33,6 @@ require("lazy").setup({
     { import = "plugins.css_color" },
     { import = "plugins.harpoon2" },
     { import = "plugins.nui" },
-    { import = "plugins.cmp" },
     { import = "plugins.obsidian" },
     { import = "plugins.lsp_config" },
     { import = "plugins.hover" },

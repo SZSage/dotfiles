@@ -73,11 +73,13 @@ return {
         bright_border = false,
         which_key = true,
         transparent = {
-          bg = true,
-          float = true, -- Enable transparency for floating windows
+          bg = false,
+          float = false, -- Enable transparency for floating windows
         },
+        noice = { style = "classic" },
         cursorline = {
           theme = "dark",
+          bold_number = true;
           -- Blending the cursorline bg with the buffer bg.
           blend = 0.85,
         },

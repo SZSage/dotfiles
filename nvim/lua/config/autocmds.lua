@@ -17,14 +17,6 @@ augroup GeneralFileSettings
 	augroup end
 ]])
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*",
-  callback = function()
-    if vim.bo.buftype == "help" then
-      vim.cmd("wincmd L")
-    end
-  end,
-})
 
 -- Skips swapfile prompt
 vim.api.nvim_create_autocmd("SwapExists", {
@@ -39,22 +31,22 @@ vim.cmd [[
   augroup end
 ]]
 
--- Autocmds for specific filetypes
-local autocomplete_group = vim.api.nvim_create_augroup("vimrc_autocompletion", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "sql", "mysql", "plsql" },
-  callback = function()
-    cmp.setup.buffer({
-      sources = {
-        { name = "vim-dadbod-completion" },
-        { name = "buffer" },
-        { name = "luasnip" },
-      },
-    })
-  end,
-  group = autocomplete_group,
-})
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover, {
+    -- use a sharp border with "FloatBorder" highlights
+    border = "",
+    title = "hover"
+  })
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help, {
+    -- Use a sharp border with `FloatBorder` highlights
+    border = "single"
+  }
+)
+
+--[[
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "python" },
   callback = function()
@@ -69,20 +61,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = autocomplete_group,
 })
 
-
--- Disable autoformat for C files
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "c" },
-  callback = function()
-    vim.b.autoformat = false
-  end,
-})
-
--- Turn off paste mode when leaving insert mode
-vim.api.nvim_create_autocmd("InsertLeave", {
-  pattern = "*",
-  command = "set nopaste"
-})
+--]]
 
 -- Display diagnostic window on cursor hold
 vim.api.nvim_create_autocmd("CursorHold", {
@@ -99,6 +78,21 @@ vim.api.nvim_create_autocmd("CursorHold", {
     vim.diagnostic.open_float(nil, opts)
   end
 })
+-- Disable autoformat for C files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "c" },
+  callback = function()
+    vim.b.autoformat = false
+  end,
+})
+
+-- Turn off paste mode when leaving insert mode
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*",
+  command = "set nopaste"
+})
+
+
 -- Custom highlight
 --vim.cmd("highlight CustomBorder guibg=NONE")
 
